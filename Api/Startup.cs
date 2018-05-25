@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
+using Api.DBModel;
+
+using Microsoft.EntityFrameworkCore;
 namespace Api
 {
     public class Startup
@@ -26,6 +29,7 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<HRContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PgConn")));
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
