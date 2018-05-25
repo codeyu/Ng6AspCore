@@ -8,6 +8,9 @@ import { AppService } from './app.service';
 import { EmployeeListComponent } from './employees/employee-list.component';
 import { EmployeeService } from './employees/employee.service';
 
+import { environment } from '../environments/environment';
+import { API_URL } from './shared/tokens/api.url.token';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +20,7 @@ import { EmployeeService } from './employees/employee.service';
     BrowserModule,
     HttpModule
   ],
-  providers: [AppService, EmployeeService],
+  providers: [AppService, EmployeeService, { provide: API_URL, useValue: environment.apiPath }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

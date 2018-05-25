@@ -29,6 +29,7 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddDbContext<HRContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PgConn")));
             services.AddMvc();
             services.AddSwaggerGen(c =>
@@ -49,6 +50,7 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(o => o.AllowAnyOrigin().WithMethods("POST", "DELETE", "GET", "PUT").AllowAnyHeader().AllowCredentials());
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSwagger();
