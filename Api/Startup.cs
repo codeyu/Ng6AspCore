@@ -16,6 +16,7 @@ using Api.DBModel;
 
 using Microsoft.EntityFrameworkCore;
 using Api.Repository;
+using Api.Utils;
 
 namespace Api
 {
@@ -48,8 +49,10 @@ namespace Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHostingEnvironment env)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            var startupLogger = loggerFactory.CreateLogger<Startup>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -63,6 +66,12 @@ namespace Api
                 c.SwaggerEndpoint("v1/swagger.json", string.Empty);
             });
             app.UseMvc();
+
+            CircuitBreaker.Do(() => TestDataSeeder.InitializeDeficiencyDatabaseAsync(app.ApplicationServices, true).Wait(), TimeSpan.FromSeconds(3));
+
+            var applicantSeeder = new TestDataSeeder();
+            applicantSeeder.SeedAsync(app.ApplicationServices).Wait();
+            startupLogger.LogInformation("Data seed completed.");
         }
     }
 }
