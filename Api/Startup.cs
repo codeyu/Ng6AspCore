@@ -15,6 +15,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using Api.DBModel;
 
 using Microsoft.EntityFrameworkCore;
+using Api.Repository;
+
 namespace Api
 {
     public class Startup
@@ -30,7 +32,9 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            
             services.AddDbContext<HRContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PgConn")));
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
