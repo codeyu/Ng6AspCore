@@ -67,9 +67,9 @@ namespace Api
             });
             app.UseMvc();
 
-            CircuitBreaker.Do(() => TestDataSeeder.InitializeDeficiencyDatabaseAsync(app.ApplicationServices, true).Wait(), TimeSpan.FromSeconds(3));
+            //CircuitBreaker.Do(() => TestDataSeeder.InitializeDeficiencyDatabaseAsync(app.ApplicationServices, true).Wait(), TimeSpan.FromSeconds(3));
 
-            var applicantSeeder = new TestDataSeeder();
+            var applicantSeeder = new TestDataSeeder(loggerFactory);
             applicantSeeder.SeedAsync(app.ApplicationServices).Wait();
             startupLogger.LogInformation("Data seed completed.");
         }

@@ -1,7 +1,9 @@
 # Ng6AspCore
 
-docker build Api/bin/Debug/netcoreapp2.0/publish/ -t ng6aspcore
+cd Api
+docker build . -t ng6aspcore
 
-docker build Client/dist/ -t ng6
+cd Client
+docker build . -t ng6
 
-docker run -it --rm -p 8080:80 ng6aspcore
+docker run -it --rm -p 5000:80 ng6aspcore

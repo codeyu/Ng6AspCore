@@ -4,24 +4,27 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: 123
+      POSTGRES_PASSWORD: postgres
+    networks:
+     - back
   api:
-    container_name: 'ng6aspcore'
     image: 'ng6aspcore'
-    build:
-      context: ./Api
-      dockerfile: Api/Dockerfile
+    expose:
+      - "80"
     ports:
      - "5000:80"
     depends_on:
      - "db"
+    networks:
+     - back
   web:
-    container_name: 'ng6'
     image: 'ng6'
-    build:
-      context: ./Client
-      dockerfile: Client/Dockerfile
     ports:
      - "80:80"
     depends_on:
      - "api"
+    networks:
+     - back
+networks:
+  back:
+    driver: bridge
