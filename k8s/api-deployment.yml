@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ng6aspcore
+  namespace: k8s-ng-aspnetcore
+spec:
+  selector:
+    matchLabels:
+      app: ng6aspcore
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ng6aspcore
+      namespace: k8s-ng-aspnetcore
+    spec:
+      containers:
+      - name: ng6aspcore
+        image: ng6aspcore
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        

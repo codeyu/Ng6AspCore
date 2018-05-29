@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ng6aspcore
+  namespace: k8s-ng-aspnetcore
+spec:
+  type: NodePort
+  selector:
+    app: ng6aspcore
+  ports:
+  - nodePort: 31000
+    port: 80
+    targetPort: 80
