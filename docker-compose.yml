@@ -23,6 +23,8 @@ services:
      - "80:80"
     depends_on:
      - "api"
+    links:
+     - "api"
     networks:
      - back
 networks:
